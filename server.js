@@ -12,6 +12,8 @@ const mongoose = require('mongoose');
 
 require('dotenv').config();
 
+const PORT = process.env.PORT;
+
 mongoose.connect(process.env.MONGOURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -100,4 +102,4 @@ app.post('/blogposts', async (req, res) => {
 
 
 console.log('Hallo World from Backend.');
-app.listen(3000);
+app.listen(PORT);
