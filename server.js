@@ -6,12 +6,16 @@ app.use(express.json());
 
 const mysql = require('mysql');
 
+const Post = require('./Post');
+
 const mongoose = require('mongoose');
 
 require('dotenv').config();
 
 mongoose.connect(process.env.MONGOURL, {
-    useNewUrlParser: true, useUnifiedTopology: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
 });
 
 
@@ -22,20 +26,32 @@ const connection = mysql.createConnection({
     database: 'miniblog'
 });
 
-app.get('/blogposts', (req, res) => {
+app.get('/blogposts', async (req, res) => {
 
-    const query1 = `select * from blogpost order by id desc;`;
+    let resultMysql = [];
+
+    const query = `select * from blogpost order by id desc;`;
 
     connection.query(
-        query1,
-        (err, rows) => {
+        query,
+        async (err, rows) => {
             if (err) {
                 console.log('Error: ' + err);
                 return;
             }
-
-            return res.send(rows)
+            
+            resultMysql = rows;
+            // return res.send(rows)
+            
+                const posts = await Post.find()
+            
+                let result = {
+                    mysql: resultMysql,
+                    mongodb: posts
+                }
+                 return res.json(result)
         });
+
 });
 
 
