@@ -94,7 +94,7 @@ app.post('/blogposts', async (req, res) => {
 
             return res.send({
                 error: 0,
-                mysql: result.id,
+                mysql: result.insertId,
                 mongodb: createdPosts
             });
         });
