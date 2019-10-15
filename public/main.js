@@ -11,18 +11,19 @@ const loadArtikel = async () => {
 
     const res = await fetch('http://localhost:3000/blogposts');
     const data = await res.json();
+    const dataMysql = data.mysql;
     
     let artikel = ``;
 
-    for(post of data) {
-        let curDate = post.created;
-        let date = curDate.slice(0,10);
-        let time = curDate.slice(11,19);
+    for(post of dataMysql) {
+        // let curDate = post.created;
+        // let date = curDate.slice(0,10);
+        // let time = curDate.slice(11,19);
 
      artikel += `
         
             <div class="artikel">
-                <span>${time}  ${date}</span>
+                <span>${post.created}</span>
                 <h2>#${post.id} ${post.titel}</h2>
                 <p>${post.content}</p>
             </div>
