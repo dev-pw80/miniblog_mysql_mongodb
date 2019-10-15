@@ -71,10 +71,11 @@ app.post('/blogposts', async (req, res) => {
 
     const query2 = `
             insert into blogpost (
+                created,
                 titel, 
                 content 
             )
-            values (?,?);
+            values (now(),?,?);
         `;
 
     connection.query(
