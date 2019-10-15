@@ -3,6 +3,9 @@ console.log('Mini-Blog');
 const aObj = document.getElementsByTagName('a');
 const contentObj = document.getElementById('content');
 
+const mysqlBtnObj = document.getElementById('mysqlBtn');
+const mongodbBtnObj = document.getElementById('mongodbBtn');
+
 
 const loadArtikel = async () => {
 
@@ -11,27 +14,57 @@ const loadArtikel = async () => {
 
     const res = await fetch('http://localhost:3000/blogposts');
     const data = await res.json();
-    const dataMysql = data.mysql;
-    
+    // const dataMysql = data.mysql;
+    // const dataMongodb = data.mongodb;
+
     let artikel = ``;
 
-    for(post of dataMysql) {
-        // let curDate = post.created;
-        // let date = curDate.slice(0,10);
-        // let time = curDate.slice(11,19);
+    if (mongodbBtnObj.checked) {
 
-     artikel += `
+        for (post of data.mongodb) {
+            let date = new Date(post.created);
+            let day = date.getDate(post.created);
+            let month = date.getMonth(post.created);
+            let year = date.getFullYear(post.created);
+            let hour = date.getHours(post.created);
+            let minutes = date.getMinutes(post.created);
+            let seconds = date.getSeconds(post.created);
+            let datum = `${day}-${month}-${year}  ${hour}:${minutes}:${seconds}`
+
+            artikel += `
         
             <div class="artikel">
-                <span>${post.created}</span>
-                <h2>#${post.id} ${post.titel}</h2>
+                <span>${datum}</span>
+                <h2>#${post._id} ${post.titel}</h2>
                 <p>${post.content}</p>
             </div>
         
-    `
+            `
+        }
+    } else {
+        for (post of data.mysql) {
+            let date = new Date(post.created);
+            let day = date.getDate(post.created);
+            let month = date.getMonth(post.created);
+            let year = date.getFullYear(post.created);
+            let hour = date.getHours(post.created);
+            let minutes = date.getMinutes(post.created);
+            let seconds = date.getSeconds(post.created);
+            let datum = `${day}-${month}-${year}  ${hour}:${minutes}:${seconds}`
+
+            artikel += `
+            
+                <div class="artikel">
+                    <span>${datum}</span>
+                    <h2>#${post.id} ${post.titel}</h2>
+                    <p>${post.content}</p>
+                </div>
+            
+                `
+        }
+    }
 
     contentObj.innerHTML = artikel;
-}
 
 };
 
@@ -53,29 +86,24 @@ const loadPost = async () => {
 
     buttonObj.onclick = async () => {
 
-        const inputObj = document.getElementsByTagName('input')[0];
+        const inputObj = document.getElementsByTagName('input')[2];
         const textareaObj = document.getElementById('textarea');
 
         console.log(inputObj.value);
         console.log(textareaObj.value);
 
-        if(!(inputObj.value.length > 0 && textareaObj.value.length > 0)) {
+        if (!(inputObj.value.length > 0 && textareaObj.value.length > 0)) {
             alert('Bitte alle Felder ausfüllen!');
             return;
         }
-
-        // const formData = new FormData();
-        // formData.append('titel', inputObj.value);
-        // formData.append('content', textareaObj.value);
 
         let body = {
             titel: inputObj.value,
             content: textareaObj.value
         }
 
-        try{
-            const response = await fetch('http://localhost:3000/blogposts',
-            {   
+        try {
+            const response = await fetch('http://localhost:3000/blogposts', {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -84,13 +112,12 @@ const loadPost = async () => {
                 body: JSON.stringify(body)
             });
 
-            if(response.ok) {
+            if (response.ok) {
                 const responseJson = await response.json();
                 const responseStr = JSON.stringify(responseJson);
                 loadArtikel();
             }
-        }
-        catch (err) {
+        } catch (err) {
             console.log('Error: ' + err);
         }
     }
