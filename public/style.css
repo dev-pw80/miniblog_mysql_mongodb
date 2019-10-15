@@ -26,10 +26,14 @@ a:hover {
     cursor: pointer;
 }
 
+.spinner {
+    display: block;
+    margin: 0 auto;
+}
+
 #radio {
     float: right;
 }
-
 
 #content {
     margin: 0 auto;

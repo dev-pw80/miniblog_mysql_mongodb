@@ -9,6 +9,9 @@ const mongodbBtnObj = document.getElementById('mongodbBtn');
 
 const loadArtikel = async () => {
 
+    const loadingSpinner = '<img class="spinner" src="/loading.gif">';
+    contentObj.innerHTML = loadingSpinner;
+
     aObj[0].classList.add('aktive');
     aObj[1].classList.remove('aktive');
 
