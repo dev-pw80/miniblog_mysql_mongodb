@@ -26,6 +26,11 @@ a:hover {
     cursor: pointer;
 }
 
+#radio {
+    float: right;
+}
+
+
 #content {
     margin: 0 auto;
     margin-top: 30px;
@@ -53,7 +58,7 @@ a:hover {
     background-size: cover;
 }
 
-input, textarea {
+input[type="text"], textarea {
     margin: 10px auto;
     display: flex;
     flex-wrap: wrap;
