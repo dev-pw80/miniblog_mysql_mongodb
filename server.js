@@ -8,8 +8,6 @@ const mysql = require('mysql');
 
 const mongoose = require('mongoose');
 
-const Post = require('./Post');
-
 require('dotenv').config();
 
 mongoose.connect(process.env.MONGOURL, {
