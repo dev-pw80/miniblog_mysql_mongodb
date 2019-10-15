@@ -6,8 +6,16 @@ app.use(express.json());
 
 const mysql = require('mysql');
 
-const moment = require('moment-timezone');
-moment().tz("Europe/Berlin").format();
+const mongoose = require('mongoose');
+
+const Post = require('./Post');
+
+require('dotenv').config();
+
+mongoose.connect(process.env.MONGOURL, {
+    useNewUrlParser: true, useUnifiedTopology: true
+});
+
 
 const connection = mysql.createConnection({
     host: 'localhost',
