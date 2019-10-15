@@ -27,7 +27,7 @@ const loadArtikel = async () => {
         for (post of data.mongodb) {
             let date = new Date(post.created);
             let day = date.getDate(post.created);
-            let month = date.getMonth(post.created);
+            let month = date.getMonth(post.created)+1;
             let year = date.getFullYear(post.created);
             let hour = date.getHours(post.created);
             let minutes = date.getMinutes(post.created);
@@ -48,7 +48,7 @@ const loadArtikel = async () => {
         for (post of data.mysql) {
             let date = new Date(post.created);
             let day = date.getDate(post.created);
-            let month = date.getMonth(post.created);
+            let month = date.getMonth(post.created)+1;
             let year = date.getFullYear(post.created);
             let hour = date.getHours(post.created);
             let minutes = date.getMinutes(post.created);
