@@ -55,11 +55,16 @@ app.get('/blogposts', async (req, res) => {
 });
 
 
-app.post('/blogposts', (req, res) => {
+app.post('/blogposts', async (req, res) => {
     if (!(req.body.titel && req.body.content)) {
         return res.send({
             error: 'titel and content required'
         });
+    }
+
+    const data = {
+        titel: req.body.titel,
+        content: req.body.content
     }
 
     const query2 = `
@@ -75,7 +80,7 @@ app.post('/blogposts', (req, res) => {
             req.body.titel,
             req.body.content
         ],
-        (err, result) => {
+        async (err, result) => {
             if (err) {
                 console.log('Error: ' + err);
                 return res.send({
@@ -83,9 +88,12 @@ app.post('/blogposts', (req, res) => {
                 });
             }
 
+            const createdPosts = await Post.insertMany(data);
+
             return res.send({
                 error: 0,
-                result: result.id
+                mysql: result.id,
+                mongodb: createdPosts
             });
         });
 });
