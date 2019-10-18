@@ -74,7 +74,16 @@ const loadArtikel = async () => {
 
 loadArtikel();
 
+
 const loadPost = async () => {
+
+    let url = '';
+    
+    if (mysqlBtnObj.checked){
+        url = 'http://localhost:3000/blogposts'
+    } else{
+        url = 'http://localhost:3000/blogpostsmongodbd'
+    }
 
     aObj[0].classList.remove('aktive');
     aObj[1].classList.add('aktive');
@@ -110,7 +119,7 @@ const loadPost = async () => {
         }
 
         try {
-            const response = await fetch('http://localhost:3000/blogposts', {
+            const response = await fetch(url, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
