@@ -114,37 +114,13 @@ app.post('/blogpostsmongodbd', async (req, res) => {
         content: req.body.content
     }
 
-    // const query2 = `
-    //         insert into blogpost (
-    //             created,
-    //             titel, 
-    //             content 
-    //         )
-    //         values (now(),?,?);
-    //     `;
-
-    // connection.query(
-    //     query2, [
-    //         req.body.titel,
-    //         req.body.content
-    //     ],
-    //     async (err, result) => {
-    //         if (err) {
-    //             console.log('Error: ' + err);
-    //             return res.send({
-    //                 error: err
-    //             });
-    //         }
-
     const createdPosts = await Post.insertMany(data);
 
     return res.send({
         error: 0,
-        // mysql: result.insertId,
         mongodb: createdPosts
     });
 });
-// });
 
 
 console.log('Hallo World from Backend.');
