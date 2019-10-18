@@ -1,10 +1,11 @@
 {
-  "name": "19_miniblog",
+  "name": "21_miniblog",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "star": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +15,7 @@
     "express": "^4.17.1",
     "moment-timezone": "^0.5.26",
     "mongoose": "^5.7.5",
-    "mysql": "^2.17.1"
+    "mysql": "^2.17.1",
+    "nodemon": "^1.19.4"
   }
 }

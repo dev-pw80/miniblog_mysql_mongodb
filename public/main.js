@@ -6,28 +6,26 @@ const contentObj = document.getElementById('content');
 const mysqlBtnObj = document.getElementById('mysqlBtn');
 const mongodbBtnObj = document.getElementById('mongodbBtn');
 
+let artikel = ``;
+let artikelMongo = ``;
 
 const loadArtikel = async () => {
 
+    contentObj.innerHTML = '';
     const loadingSpinner = '<img class="spinner" src="/loading.gif">';
     contentObj.innerHTML = loadingSpinner;
 
     aObj[0].classList.add('aktive');
     aObj[1].classList.remove('aktive');
 
-    const res = await fetch('http://localhost:3000/blogposts');
-    const data = await res.json();
-    // const dataMysql = data.mysql;
-    // const dataMongodb = data.mongodb;
+    if (mysqlBtnObj.checked) {
+        let res = await fetch('http://localhost:3000/blogposts');
+        let data = await res.json();
 
-    let artikel = ``;
-
-    if (mongodbBtnObj.checked) {
-
-        for (post of data.mongodb) {
+        for (post of data.mysql) {
             let date = new Date(post.created);
             let day = date.getDate(post.created);
-            let month = date.getMonth(post.created)+1;
+            let month = date.getMonth(post.created) + 1;
             let year = date.getFullYear(post.created);
             let hour = date.getHours(post.created);
             let minutes = date.getMinutes(post.created);
@@ -38,37 +36,40 @@ const loadArtikel = async () => {
         
             <div class="artikel">
                 <span>${datum}</span>
-                <h2>#${post._id} ${post.titel}</h2>
+                <h2>#${post.id} ${post.titel}</h2>
                 <p>${post.content}</p>
             </div>
         
             `
         }
-    } else {
-        for (post of data.mysql) {
+        contentObj.innerHTML = artikel;
+
+    } else if (mongodbBtnObj.checked) {
+        let res = await fetch('http://localhost:3000/blogpostsmongodb');
+        let data = await res.json();
+
+        for (post of data.mongodb) {
             let date = new Date(post.created);
             let day = date.getDate(post.created);
-            let month = date.getMonth(post.created)+1;
+            let month = date.getMonth(post.created) + 1;
             let year = date.getFullYear(post.created);
             let hour = date.getHours(post.created);
             let minutes = date.getMinutes(post.created);
             let seconds = date.getSeconds(post.created);
             let datum = `${day}-${month}-${year}  ${hour}:${minutes}:${seconds}`
 
-            artikel += `
-            
-                <div class="artikel">
-                    <span>${datum}</span>
-                    <h2>#${post.id} ${post.titel}</h2>
-                    <p>${post.content}</p>
-                </div>
-            
-                `
+            artikelMongo += `
+                    
+                        <div class="artikel">
+                            <span>${datum}</span>
+                            <h2>#${post._id} ${post.titel}</h2>
+                            <p>${post.content}</p>
+                        </div>
+                    
+                        `
         }
+        contentObj.innerHTML = artikelMongo;
     }
-
-    contentObj.innerHTML = artikel;
-
 };
 
 loadArtikel();
@@ -99,6 +100,9 @@ const loadPost = async () => {
             alert('Bitte alle Felder ausfüllen!');
             return;
         }
+        // if(inputObj.value.length > 50) {
+        //     alert('Titel ist zu lang! Max. 50 Zeichen!!!')
+        // }
 
         let body = {
             titel: inputObj.value,

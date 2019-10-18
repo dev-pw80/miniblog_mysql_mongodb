@@ -74,6 +74,10 @@ input[type="text"], textarea {
     box-sizing: border-box;    
 }
 
+input[type="radio"] {
+    cursor: pointer;
+}
+
 button {
     margin: 0 auto;
     font-size: 1.2em;

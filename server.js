@@ -41,19 +41,28 @@ app.get('/blogposts', async (req, res) => {
                 console.log('Error: ' + err);
                 return;
             }
-            
+
             resultMysql = rows;
-            // return res.send(rows)
-            
-                const posts = await Post.find().sort({_id:-1})
-            
-                let result = {
-                    mysql: resultMysql,
-                    mongodb: posts
-                }
-                 return res.json(result)
+
+            let result = {
+                mysql: resultMysql,
+            }
+            return res.json(result)
         });
 
+});
+
+
+app.get('/blogpostsmongodb', async (req, res) => {
+
+    const posts = await Post.find().sort({
+        _id: -1
+    })
+
+    let result = {
+        mongodb: posts
+    }
+    return res.json(result)
 });
 
 
